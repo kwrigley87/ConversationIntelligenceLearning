@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conversation Intelligence Lab — Topic Build</title>
+<style>
+:root{--navy:#172b55;--orange:#ff4f22;--blue:#315fc5;--teal:#18a5a2;--ink:#17233f;--muted:#63708a;--bg:#f3f6fa;--line:#dce3ef;--card:#fff;--soft:#eef4ff}
+*{box-sizing:border-box} body{margin:0;font-family:Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.45}
+.shell{display:grid;grid-template-columns:260px 1fr;min-height:100vh}.side{background:white;border-right:1px solid var(--line);padding:28px 22px;position:sticky;top:0;height:100vh}
+.brand{font-size:12px;letter-spacing:.18em;color:var(--muted);font-weight:800;margin-bottom:22px}.nav a{display:block;text-decoration:none;color:var(--ink);font-weight:700;padding:12px 14px;border-radius:12px;margin:5px 0}.nav a:hover,.nav a.active{background:#dfeaff}
+.note{margin-top:28px;border:1px solid var(--line);border-radius:14px;padding:14px;background:#f8fafc;font-size:13px;color:var(--muted)}
+main{max-width:1060px;width:100%;padding:42px 52px 80px}.eyebrow{font-size:13px;letter-spacing:.16em;font-weight:900;color:var(--orange);text-transform:uppercase}
+h1{font-size:42px;line-height:1.08;margin:8px 0 12px}h2{font-size:30px;margin:8px 0 10px}h3{font-size:20px;margin:0 0 8px}.lead{font-size:19px;color:var(--muted);max-width:820px}
+section{scroll-margin-top:24px;margin-bottom:56px}.hero{background:linear-gradient(135deg,var(--navy),#294b88);color:white;border-radius:22px;padding:32px;margin-top:26px}.hero p{color:#e4ebf7}.mission{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}.mini{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);padding:16px;border-radius:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 8px 26px rgba(20,40,80,.05);margin-top:18px}
+.steps{counter-reset:s}.step{display:grid;grid-template-columns:42px 1fr;gap:14px;padding:17px 0;border-bottom:1px solid var(--line)}.step:last-child{border-bottom:0}.step:before{counter-increment:s;content:counter(s);width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:white;font-weight:800}
+.callout{border-left:4px solid var(--orange);background:#fff3ee;padding:14px 16px;border-radius:8px;margin:16px 0}.good{border-left-color:var(--teal);background:#eefaf8}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.tile{border:1px solid var(--line);border-radius:14px;padding:16px;background:white}.tile b{display:block;margin-bottom:6px}
+.test{border:1px solid var(--line);border-radius:14px;padding:15px;margin:10px 0;background:#fbfcfe}.tag{display:inline-block;font-size:11px;font-weight:900;letter-spacing:.08em;padding:5px 8px;border-radius:99px;background:#e8efff;color:var(--blue);margin-bottom:8px}
+.checklist li{margin:9px 0}.footer{margin-top:54px;color:#8a95a8;font-size:12px}
+@media(max-width:800px){.shell{display:block}.side{position:relative;height:auto;border-right:0;border-bottom:1px solid var(--line)}main{padding:28px 20px}.mission,.grid3{grid-template-columns:1fr}h1{font-size:34px}}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="side">
+<div class="brand">CONVERSATION INTELLIGENCE LAB</div>
+<nav class="nav">
+<a class="active" href="#mission">01 · Mission</a>
+<a href="#build">02 · Build the topic</a>
+<a href="#test">03 · Test & tune</a>
+<a href="#extend">04 · Extend it</a>
+<a href="#takeaway">05 · Takeaway</a>
+</nav>
+<div class="note"><b>Most of this lab happens in Genesys Cloud.</b><br><br>This page is your mission brief and task guide — not a replacement for the product.</div>
+</aside>
+<main>
+<section id="mission">
+<div class="eyebrow">01 · Mission</div>
+<h1>Build, test and improve a Cancellation Intent topic</h1>
+<p class="lead">Your customer wants to reliably identify when a customer is expressing an intention to cancel. Your job is to turn that business intent into a usable topic, test it against real conversations and improve it.</p>
+<div class="hero">
+<h2>Your mission</h2>
+<p>Work in Genesys Cloud. You are not trying to create the perfect topic first time. Build something sensible, test the evidence, then tune it.</p>
+<div class="mission">
+<div class="mini"><b>Business intent</b><br>Identify customers expressing an intention to cancel or leave the service.</div>
+<div class="mini"><b>Success</b><br>The topic finds genuine cancellation intent without simply matching every use of words such as “cancel” or “leave”.</div>
+</div>
+</div>
+</section>
+
+<section id="build">
+<div class="eyebrow">02 · Build the topic</div>
+<h2>Start in Genesys Cloud</h2>
+<p class="lead">Use the Topic Library and make the design decisions yourself. There is deliberately no “perfect phrase list” here.</p>
+<div class="card">
+<div class="steps">
+<div class="step"><div><h3>Create the topic</h3>Name it <b>Cancellation Intent</b>. Use a clear description/objective so another analyst knows exactly what the topic is intended to detect.</div></div>
+<div class="step"><div><h3>Create 5–8 phrases</h3>Think about how real customers express cancellation intent. Include different wording and natural variations — not just keywords.</div></div>
+<div class="step"><div><h3>Choose the participant</h3>Decide whose language should trigger the topic. Ask yourself whether you are trying to detect customer intent, agent behaviour, or both.</div></div>
+<div class="step"><div><h3>Choose an initial strictness</h3>Pick a sensible starting point. You will validate it later; do not treat strictness as a “make it accurate” slider.</div></div>
+<div class="step"><div><h3>Connect it to the right Program</h3>Decide where this topic should be searched for. Confirm the relevant queue/flow and Program relationship.</div></div>
+</div>
+<div class="callout good"><b>Before you publish:</b> read every phrase and ask, “If I heard this phrase in isolation, would it reliably support the topic objective?”</div>
+</div>
+</section>
+
+<section id="test">
+<div class="eyebrow">03 · Test & tune</div>
+<h2>Now try to break it</h2>
+<p class="lead">Use Topic Phrase Testing / available historical interactions. Your first version is a hypothesis — testing tells you whether it works.</p>
+<div class="card">
+<h3>Use these examples to challenge your design</h3>
+<div class="test"><span class="tag">EXAMPLE 1</span><br>“I want to cancel my account.”</div>
+<div class="test"><span class="tag">EXAMPLE 2</span><br>“If this keeps happening, I’m going to leave.”</div>
+<div class="test"><span class="tag">EXAMPLE 3</span><br>“The previous agent cancelled my order.”</div>
+<div class="test"><span class="tag">EXAMPLE 4</span><br>“Please don’t cancel my policy.”</div>
+<div class="test"><span class="tag">EXAMPLE 5</span><br>“I’m switching to another provider.”</div>
+<div class="test"><span class="tag">EXAMPLE 6</span><br>“Can you tell me what the cancellation fee is?”</div>
+<div class="callout"><b>Think before testing:</b> Which should be genuine cancellation intent? Which could become a false or sense-false positive? Which valid intent might your original phrases miss?</div>
+</div>
+<div class="card">
+<h3>Your tuning task</h3>
+<div class="grid3">
+<div class="tile"><b>KEEP</b>Identify one phrase that is producing useful, relevant matches.</div>
+<div class="tile"><b>CHANGE / REMOVE</b>Find one phrase that is too broad, ambiguous or creating poor matches.</div>
+<div class="tile"><b>ADD</b>Find one genuine way customers express the intent that your first version missed.</div>
+</div>
+<p style="margin-bottom:0;margin-top:18px"><b>Then test again.</b> Review the matched transcript context, not just whether the phrase technically appeared.</p>
+</div>
+</section>
+
+<section id="extend">
+<div class="eyebrow">04 · Extend it</div>
+<h2>Go beyond a single topic</h2>
+<p class="lead">Once the topic is credible, use the wider Conversation Intelligence tools to make the signal more useful.</p>
+<div class="card">
+<div class="steps">
+<div class="step"><div><h3>Topic Miner</h3>If suitable data is available, explore how customers actually talk about cancellation. Compare discovered language with the phrases you invented.</div></div>
+<div class="step"><div><h3>Create an Interaction Category</h3>Build a more specific signal using your Cancellation Intent topic with additional criteria. For example, explore how you could identify a higher-risk cancellation scenario using other conversational evidence.</div></div>
+<div class="step"><div><h3>Find the evidence</h3>Use Content Search / relevant views to locate interactions containing your topic and inspect the conversations behind the signal.</div></div>
+</div>
+</div>
+</section>
+
+<section id="takeaway">
+<div class="eyebrow">05 · Takeaway</div>
+<h2>What good topic design looks like</h2>
+<div class="card">
+<ul class="checklist">
+<li><b>Start with the business intent</b>, not a list of keywords.</li>
+<li><b>Use language customers actually use</b>, then validate it against real conversations.</li>
+<li><b>Context matters.</b> A word appearing does not mean the intended event occurred.</li>
+<li><b>Tune for the use case</b>, not for 100% coverage.</li>
+<li><b>Test → review → improve → repeat.</b> Topic design is iterative.</li>
+</ul>
+</div>
+<div class="footer">Genesys internal workshop exercise · Conversation Intelligence</div>
+</section>
+</main>
+</div>
+<script>
+const links=[...document.querySelectorAll('.nav a')];
+const sections=links.map(a=>document.querySelector(a.getAttribute('href')));
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.classList.remove('active'));const i=sections.indexOf(e.target);if(i>=0)links[i].classList.add('active')}})},{rootMargin:'-20% 0px -65% 0px'});
+sections.forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>
