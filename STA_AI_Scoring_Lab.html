@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Conversation Intelligence Workshop — AI Scoring Lab</title>
+<style>
+:root{
+  --navy:#17284f;
+  --navy-2:#233a6b;
+  --blue:#2f63d9;
+  --blue-soft:#dfeafb;
+  --orange:#ff5b2d;
+  --orange-soft:#fff0ea;
+  --teal:#1ea6a3;
+  --teal-soft:#e5f6f5;
+  --ink:#1d2638;
+  --muted:#68738b;
+  --line:#d9deea;
+  --paper:#f6f7fa;
+  --white:#fff;
+  --green:#3ca66a;
+  --green-soft:#eaf7ef;
+  --amber:#c68a17;
+  --amber-soft:#fff6df;
+  --red:#cf4a4a;
+  --red-soft:#fff0f0;
+  --shadow:0 14px 38px rgba(19,37,74,.11);
+  --radius:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Roboto,Arial,Helvetica,sans-serif;color:var(--ink);background:#eef1f6;line-height:1.42}
+button,input,textarea,select{font:inherit}
+.app{min-height:100vh}
+.topbar{background:var(--navy);color:#fff;padding:14px 28px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:20;box-shadow:0 3px 18px rgba(0,0,0,.12)}
+.brand{font-weight:700;letter-spacing:.02em}.brand span{color:#ff6a3b}.topnote{font-size:13px;opacity:.78}
+.hero{background:linear-gradient(135deg,#ffffff 0%,#f7f9fc 60%,#edf4ff 100%);padding:52px 7vw 42px;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+.hero:after{content:"AI SCORING";position:absolute;right:-20px;bottom:-28px;font-weight:800;font-size:110px;color:rgba(47,99,217,.055);letter-spacing:-.04em}
+.kicker{color:var(--orange);font-weight:800;text-transform:uppercase;letter-spacing:.18em;font-size:13px;margin-bottom:8px}
+h1{font-size:46px;line-height:1.05;margin:0 0 12px;color:var(--navy)}
+.subtitle{font-size:21px;color:var(--navy-2);max-width:900px;margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}.pill{display:inline-flex;align-items:center;gap:7px;padding:7px 11px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:13px;color:var(--navy-2);font-weight:700}
+.layout{display:grid;grid-template-columns:270px 1fr;max-width:1420px;margin:0 auto;min-height:100vh}
+.side{background:#fff;border-right:1px solid var(--line);padding:22px 16px;position:sticky;top:57px;height:calc(100vh - 57px);overflow:auto}
+.side h3{margin:8px 12px 12px;font-size:13px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+.navbtn{width:100%;text-align:left;border:0;background:transparent;padding:12px 12px;border-radius:12px;cursor:pointer;color:var(--ink);font-weight:700;margin:2px 0}.navbtn:hover{background:#f3f6fb}.navbtn.active{background:var(--blue-soft);color:var(--navy)}
+.side .progress{margin:18px 12px;padding:14px;border-radius:14px;background:var(--paper);border:1px solid var(--line)}
+.progressbar{height:8px;border-radius:99px;background:#dfe4ed;overflow:hidden;margin:8px 0}.progressbar>span{display:block;height:100%;background:linear-gradient(90deg,var(--orange),var(--blue));width:0}
+.content{padding:34px 34px 70px}
+.section{max-width:1080px;margin:0 auto 36px}.section-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;margin-bottom:18px}.section-head h2{font-size:31px;margin:0;color:var(--navy)}.section-head p{margin:5px 0 0;color:var(--muted)}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
+.mission{display:grid;grid-template-columns:1.4fr 1fr;gap:18px}.mission .big{padding:28px;background:linear-gradient(135deg,var(--navy),#294b88);color:#fff;border-radius:20px}.mission .big h3{font-size:25px;margin:0 0 10px}.mission .big p{font-size:17px;opacity:.92}.mission .rule{margin-top:20px;padding:13px 15px;border-left:4px solid var(--orange);background:rgba(255,255,255,.08)}
+.objectives{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.objective{padding:18px;background:#fff;border:1px solid var(--line);border-radius:16px}.objective b{display:block;color:var(--navy);margin-bottom:7px}.objective small{color:var(--muted)}
+.exercise-grid{display:grid;grid-template-columns:1fr 340px;gap:18px}.question-list{display:grid;gap:10px}.qbtn{display:grid;grid-template-columns:42px 1fr auto;align-items:center;gap:12px;padding:14px;border:1px solid var(--line);background:#fff;border-radius:14px;cursor:pointer;text-align:left}.qbtn:hover{border-color:#b8c4da;box-shadow:0 6px 16px rgba(20,38,75,.06)}.qnum{width:30px;height:30px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}.qtext{font-weight:700}.tag{font-size:11px;text-transform:uppercase;letter-spacing:.08em;padding:6px 8px;border-radius:999px;font-weight:800;white-space:nowrap}.tag.ready{background:var(--green-soft);color:var(--green)}.tag.rework{background:var(--amber-soft);color:#8b650d}.tag.no{background:var(--red-soft);color:var(--red)}
+.inspector{position:sticky;top:80px;height:max-content}.inspector h3{margin:0 0 8px;color:var(--navy);font-size:22px}.inspector .label{font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:800;color:var(--muted);margin-top:15px;margin-bottom:6px}.question-box{padding:14px;border-radius:12px;background:#f6f8fc;border:1px solid var(--line);font-weight:700}.option-list{display:grid;gap:7px}.option{padding:10px 12px;background:#fff;border:1px solid var(--line);border-radius:10px}.guidance{padding:13px;border-radius:12px;margin-top:10px}.guidance.ready{background:var(--green-soft);border:1px solid #b8e1c8}.guidance.rework{background:var(--amber-soft);border:1px solid #ead39c}.guidance.no{background:var(--red-soft);border:1px solid #efc1c1}.guidance strong{display:block;margin-bottom:5px}
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:stretch}.step{padding:18px;border-radius:16px;background:#fff;border:1px solid var(--line);position:relative}.step:not(:last-child):after{content:"→";position:absolute;right:-9px;top:50%;transform:translateY(-50%);width:18px;height:18px;border-radius:50%;background:var(--orange);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;z-index:2}.step .n{font-size:12px;color:var(--orange);font-weight:900}.step h4{margin:4px 0 5px;color:var(--navy)}.step p{margin:0;color:var(--muted);font-size:14px}
+.curveballs{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.curve{border:1px dashed #b9c3d7;background:#fbfcfe;border-radius:16px;padding:18px}.curve h4{margin:0 0 7px;color:var(--navy)}.curve .case{font-weight:700;margin-bottom:10px}.reveal{margin-top:12px}.reveal button{border:1px solid var(--navy);background:#fff;color:var(--navy);padding:8px 12px;border-radius:10px;font-weight:800;cursor:pointer}.answer{display:none;margin-top:10px;padding:12px;border-radius:11px;background:#f3f6fb;border:1px solid var(--line);font-size:14px}
+.builder{display:grid;grid-template-columns:1fr 320px;gap:18px}.field{margin-bottom:14px}.field label{display:block;font-weight:800;color:var(--navy);margin-bottom:6px}.field textarea,.field input,.field select{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px 12px;outline:none;background:#fff}.field textarea{min-height:85px;resize:vertical}.field textarea:focus,.field input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(47,99,217,.12)}
+.checks{display:grid;gap:9px}.check{display:flex;gap:10px;align-items:flex-start;padding:11px;border-radius:11px;background:#f8fafc;border:1px solid var(--line)}.check input{margin-top:3px;accent-color:var(--blue)}
+.preview{background:#f7f9fc;border:1px solid var(--line);border-radius:14px;padding:16px}.preview h4{margin:0 0 7px;color:var(--navy)}.preview .mini{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:800;margin-top:13px}.answerchips{display:flex;flex-wrap:wrap;gap:7px;margin-top:7px}.chip{padding:7px 9px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:13px}.btn{border:0;border-radius:11px;padding:11px 15px;font-weight:800;cursor:pointer}.btn.primary{background:var(--navy);color:#fff}.btn.orange{background:var(--orange);color:#fff}.btn.outline{background:#fff;border:1px solid var(--line);color:var(--navy)}
+.scorebox{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:17px;border-radius:16px;background:#fff;border:1px solid var(--line)}.score{font-size:34px;font-weight:900;color:var(--navy)}
+.golden{border-left:5px solid var(--orange);background:#fff7f3;padding:15px 17px;border-radius:12px;border-top:1px solid #f4ddd1;border-right:1px solid #f4ddd1;border-bottom:1px solid #f4ddd1}.golden strong{color:#a73a1d}
+.footer{max-width:1080px;margin:0 auto;color:var(--muted);font-size:12px;padding:10px 0 30px}
+@media(max-width:1050px){.layout{grid-template-columns:1fr}.side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:4px;align-items:center}.side h3,.side .progress{display:none}.navbtn{width:auto}.mission,.exercise-grid,.builder{grid-template-columns:1fr}.inspector{position:static}.flow{grid-template-columns:1fr 1fr}.step:not(:last-child):after{display:none}}
+@media(max-width:720px){.hero{padding:36px 22px}.hero:after{font-size:58px}.content{padding:24px 14px 50px}h1{font-size:38px}.subtitle{font-size:17px}.objectives,.curveballs,.flow{grid-template-columns:1fr}.topbar{padding:12px 16px}.topnote{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar"><div class="brand">FUEL CS. <span>Conversation Intelligence</span></div><div class="topnote">AI Scoring Workshop Lab · Static exercise · No data leaves the browser</div></div>
+  <section class="hero">
+    <div class="kicker">Conversation Intelligence Workshop</div>
+    <h1>AI Scoring Lab</h1>
+    <p class="subtitle">Traditional quality forms were built for human reviewers. Your job: decide what AI can reliably score, improve the questions that need work, and build one AI-ready question.</p>
+    <div class="meta"><span class="pill">01 · Review</span><span class="pill">02 · Rewrite</span><span class="pill">03 · Build</span><span class="pill">04 · Validate</span></div>
+  </section>
+  <div class="layout">
+    <aside class="side">
+      <h3>Lab</h3>
+      <button class="navbtn active" data-target="mission">01 · Mission</button>
+      <button class="navbtn" data-target="review">02 · Review the form</button>
+      <button class="navbtn" data-target="curveballs">03 · Curveballs</button>
+      <button class="navbtn" data-target="build">04 · Build one</button>
+      <button class="navbtn" data-target="takeaway">05 · Takeaway</button>
+      <div class="progress"><b>Lab progress</b><div class="progressbar"><span id="progressFill"></span></div><small id="progressText">0 / 10 questions reviewed</small></div>
+    </aside>
+    <main class="content">
+      <section class="section" id="mission">
+        <div class="section-head"><div><div class="kicker">01 · Mission</div><h2>AI Scoring is only as good as the question</h2><p>AI scoring uses the evaluation question, answer choices and help text to determine how the interaction should be scored. fileciteturn5file0L679-L687</p></div></div>
+        <div class="mission">
+          <div class="big"><h3>Your challenge</h3><p>You inherit a traditional 10-question customer service evaluation form. Before enabling AI Scoring, decide which questions are suitable as written, which need rework, and which cannot be reliably answered from the interaction alone.</p><div class="rule"><b>Golden rule:</b> AI can score evidence it can observe. It cannot prove an invisible action happened.</div></div>
+          <div class="objectives">
+            <div class="objective"><b>Review</b><small>Spot ambiguity, hidden dependencies and overly broad questions.</small></div>
+            <div class="objective"><b>Rewrite</b><small>Turn a traditional question into a specific, observable question.</small></div>
+            <div class="objective"><b>Build</b><small>Add clear answers and help text, then consider whether the evidence is sufficient.</small></div>
+          </div>
+        </div>
+        <div style="height:16px"></div>
+        <div class="flow">
+          <div class="step"><div class="n">01</div><h4>Traditional form</h4><p>What humans have historically asked.</p></div>
+          <div class="step"><div class="n">02</div><h4>AI suitability</h4><p>Can the interaction contain the evidence?</p></div>
+          <div class="step"><div class="n">03</div><h4>AI-ready design</h4><p>Clear intent, answer options and help text.</p></div>
+          <div class="step"><div class="n">04</div><h4>Human oversight</h4><p>Validate, compare agreement and scale with confidence. fileciteturn5file0L698-L717</p></div>
+        </div>
+      </section>
+
+      <section class="section" id="review">
+        <div class="section-head"><div><div class="kicker">02 · Review</div><h2>The traditional form</h2><p>Click a question. Decide: <b>AI Ready</b>, <b>Needs Rework</b> or <b>Not Observable</b>. The exercise records your choices locally.</p></div></div>
+        <div class="exercise-grid">
+          <div class="question-list" id="questionList"></div>
+          <div class="card inspector" id="inspector"><h3>Select a question</h3><p style="color:var(--muted);margin-top:0">Your decision and the rationale will appear here.</p></div>
+        </div>
+      </section>
+
+      <section class="section" id="curveballs">
+        <div class="section-head"><div><div class="kicker">03 · Curveballs</div><h2>Three questions designed to catch you out</h2><p>These are deliberately believable. The trick is distinguishing something <i>mentioned</i> in a conversation from something actually <i>proven</i> by the conversation.</p></div></div>
+        <div class="curveballs">
+          <div class="curve"><h4>Curveball 01 · The invisible action</h4><div class="case">“Did the agent check the billing system before answering?”</div><div class="reveal"><button onclick="toggleReveal('a1')">Reveal thinking</button><div class="answer" id="a1"><b>Not observable</b> from the interaction alone. The conversation may contain the answer the agent gave, but that does not prove which system they checked.</div></div></div>
+          <div class="curve"><h4>Curveball 02 · The vague judgement</h4><div class="case">“Did the agent provide good customer service?”</div><div class="reveal"><button onclick="toggleReveal('a2')">Reveal thinking</button><div class="answer" id="a2"><b>Needs rework.</b> “Good customer service” needs observable criteria. Break the intent into behaviours or outcomes the interaction can actually evidence.</div></div></div>
+          <div class="curve"><h4>Curveball 03 · The process claim</h4><div class="case">“Did the agent follow all company procedures?”</div><div class="reveal"><button onclick="toggleReveal('a3')">Reveal thinking</button><div class="answer" id="a3"><b>Needs rework.</b> This is too broad. Narrow it to a specific observable requirement that can be evidenced in the conversation.</div></div></div>
+        </div>
+        <div style="height:14px"></div>
+        <div class="golden"><strong>Golden Nugget:</strong> Don't ask AI to score something simply because the answer would be useful. Ask whether the interaction contains enough evidence to support the answer.</div>
+      </section>
+
+      <section class="section" id="build">
+        <div class="section-head"><div><div class="kicker">04 · Build one</div><h2>Turn a traditional question into an AI-ready question</h2><p>Choose an intent, make it observable, define the answers, then add help text that tells AI what evidence matters.</p></div></div>
+        <div class="builder">
+          <div class="card">
+            <div class="field"><label for="intent">Business intent</label><input id="intent" value="Empathy when the customer is frustrated" /></div>
+            <div class="field"><label for="qinput">Evaluation question</label><textarea id="qinput">Did the agent demonstrate empathy?</textarea></div>
+            <div class="field"><label for="answers">Answer options</label><input id="answers" value="Yes · No · N/A" /></div>
+            <div class="field"><label for="help">AI help text</label><textarea id="help">Define what evidence should count as empathy, when it should be present, and what should not count on its own.</textarea></div>
+            <button class="btn primary" onclick="updatePreview()">Update preview</button>
+          </div>
+          <div class="card">
+            <div class="preview"><h4>AI-ready preview</h4><div class="mini">Question</div><div id="pvQuestion" style="font-weight:800;margin-top:5px">Did the agent demonstrate empathy?</div><div class="mini">Answers</div><div class="answerchips" id="pvAnswers"><span class="chip">Yes</span><span class="chip">No</span><span class="chip">N/A</span></div><div class="mini">Help text</div><div id="pvHelp" style="color:var(--muted);margin-top:5px">Define what evidence should count as empathy, when it should be present, and what should not count on its own.</div></div>
+            <div style="height:15px"></div>
+            <div class="checks">
+              <label class="check"><input type="checkbox" data-build-check /> The question describes one clear thing to score</label>
+              <label class="check"><input type="checkbox" data-build-check /> The answer can be evidenced from the interaction</label>
+              <label class="check"><input type="checkbox" data-build-check /> Answer choices are mutually understandable</label>
+              <label class="check"><input type="checkbox" data-build-check /> Help text defines the evidence the AI should look for</label>
+              <label class="check"><input type="checkbox" data-build-check /> Human review remains available during rollout</label>
+            </div>
+            <div style="height:12px"></div>
+            <div class="scorebox"><div><small style="color:var(--muted)">Design confidence</small><div id="buildScoreLabel"><b>Not yet checked</b></div></div><div class="score" id="buildScore">—</div></div>
+          </div>
+        </div>
+        <div style="height:14px"></div>
+        <div class="golden"><strong>Practical reminder:</strong> “Did the agent check the system?” is a poor AI Scoring question if the system action cannot be observed in the conversation. Your question should score what the interaction can actually evidence.</div>
+      </section>
+
+      <section class="section" id="takeaway">
+        <div class="section-head"><div><div class="kicker">05 · Takeaway</div><h2>Before you enable AI Scoring...</h2><p>Use this five-question check whenever you look at a traditional form.</p></div></div>
+        <div class="objectives" style="grid-template-columns:repeat(5,1fr)">
+          <div class="objective"><b>1 · Observable?</b><small>Can the interaction contain the evidence?</small></div>
+          <div class="objective"><b>2 · Specific?</b><small>Is there one clear thing to score?</small></div>
+          <div class="objective"><b>3 · Defensible?</b><small>Would two reviewers understand the evidence similarly?</small></div>
+          <div class="objective"><b>4 · Explainable?</b><small>Could we explain why the answer was selected?</small></div>
+          <div class="objective"><b>5 · Validated?</b><small>Have we compared AI results with human review?</small></div>
+        </div>
+        <div style="height:16px"></div>
+        <div class="mission"><div class="big"><h3>The point isn't “AI can score this.”</h3><p>The point is: <b>“AI can score this reliably enough, from evidence we can observe, and we know how to validate it.”</b></p></div><div class="card"><h3 style="margin-top:0;color:var(--navy)">Your next move</h3><p style="color:var(--muted)">Take one traditional evaluation question from your current customer context and run it through the five checks. If it fails one, rewrite it before thinking about scale.</p></div></div>
+        <div style="height:18px"></div>
+        <div class="footer">Conversation Intelligence Workshop · AI Scoring Lab · Designed for facilitator-led use alongside a Genesys Cloud environment. Static page: no submissions are sent anywhere.</div>
+      </section>
+    </main>
+  </div>
+</div>
+<script>
+const questions = [
+ {q:'Did the agent greet the customer appropriately?',a:['Yes','No','N/A'],c:'ready',label:'AI Ready',why:'The interaction can usually provide direct conversational evidence of the greeting. Keep the question focused on a specific, observable greeting behaviour.',rewrite:'Did the agent provide an appropriate greeting at the start of the interaction?',help:'Select Yes when the agent gives an appropriate opening greeting. Do not infer a greeting from silence or system messages.'},
+ {q:'Did the agent verify the customer according to the required process?',a:['Yes','No','N/A'],c:'rework',label:'Needs Rework',why:'Verification may include steps or system actions that are not all visible in the conversation. Narrow the question to the specific evidence that can be heard or seen in the interaction.',rewrite:'Did the agent verbally complete the required customer verification steps that are observable in the interaction?',help:'Specify the exact verification behaviours that should be heard in the interaction. Do not require evidence from an external authentication system.'},
+ {q:'Did the agent demonstrate empathy?',a:['Yes','No'],c:'rework',label:'Needs Rework',why:'“Empathy” is meaningful but too broad on its own. Define what observable behaviour counts as empathy and when it is expected.',rewrite:'When the customer expressed frustration or concern, did the agent acknowledge the customer’s emotion or situation appropriately?',help:'Select Yes when the agent explicitly acknowledges the customer’s frustration, concern or inconvenience using language that demonstrates understanding. A polite tone alone is not sufficient.'},
+ {q:'Did the agent check all relevant internal systems before giving the customer an answer?',a:['Yes','No'],c:'no',label:'Not Observable',why:'The interaction does not prove which systems the agent checked. The agent may mention a result, but that is not evidence that every required system was accessed.',rewrite:'Did the agent explain the information they used to answer the customer’s question?',help:'Score only evidence that is available in the interaction. Do not infer that an external system was checked.'},
+ {q:'Did the agent clearly explain the resolution to the customer?',a:['Yes','No'],c:'ready',label:'AI Ready',why:'The interaction contains the explanation itself, making this a useful candidate for AI Scoring when the expected evidence is clearly defined.',rewrite:'Did the agent clearly explain what had been resolved and what would happen next?',help:'Select Yes when the agent explains the resolution in clear language and gives the customer relevant next steps.'},
+ {q:'Did the agent use a professional tone throughout the interaction?',a:['Yes','No'],c:'rework',label:'Needs Rework',why:'“Professional tone” can be interpreted differently and may require more concrete criteria. Define specific observable behaviours or use narrower criteria.',rewrite:'Did the agent maintain a respectful and appropriate tone when responding to the customer?',help:'Define what respectful and appropriate tone means for this use case. Avoid relying on a subjective overall impression.'},
+ {q:'Did the agent document the interaction correctly in the CRM?',a:['Yes','No'],c:'no',label:'Not Observable',why:'CRM documentation happens outside the conversation. The transcript cannot prove what the agent entered into the CRM.',rewrite:'Did the agent verbally confirm the case details that were required for the customer?',help:'Only score evidence that appears in the interaction. Use a separate system-level check to validate CRM documentation.'},
+ {q:'Did the agent confirm that the customer’s issue was resolved?',a:['Yes','No','N/A'],c:'ready',label:'AI Ready',why:'A resolution confirmation can be directly observable in the interaction. Define what counts as a clear confirmation.',rewrite:'Did the agent confirm with the customer whether the issue had been resolved?',help:'Select Yes when the agent explicitly checks or confirms whether the customer’s issue has been resolved.'},
+ {q:'Did the agent follow all company processes and procedures?',a:['Yes','No'],c:'rework',label:'Needs Rework',why:'This is too broad for a single score. “All procedures” may include many actions that are not visible in the interaction. Narrow it to one observable requirement.',rewrite:'Did the agent follow the required process for explaining the customer’s billing adjustment?',help:'Define the specific process steps that should be observable in the interaction and what evidence counts as compliance.'},
+ {q:'Overall, did the agent provide good customer service?',a:['Yes','No'],c:'rework',label:'Needs Rework',why:'This asks for an overall judgement rather than a clearly defined evidence-based criterion. Break it into specific observable dimensions.',rewrite:'Did the agent address the customer’s stated need clearly and provide an appropriate next step?',help:'Define what evidence demonstrates that the customer’s stated need was addressed and that the appropriate next step was provided.'}
+];
+let selected=0; const reviewed=new Set();
+function renderList(){
+ const el=document.getElementById('questionList'); el.innerHTML='';
+ questions.forEach((x,i)=>{
+   const b=document.createElement('button'); b.className='qbtn'; b.onclick=()=>selectQuestion(i); b.dataset.index=i;
+   b.innerHTML=`<span class="qnum">${i+1}</span><span class="qtext">${x.q}</span><span class="tag ${x.c}">${x.label}</span>`; el.appendChild(b);
+ });
+}
+function selectQuestion(i){
+ selected=i; reviewed.add(i); updateProgress();
+ const x=questions[i];
+ document.querySelectorAll('.qbtn').forEach((b,j)=>b.style.outline=j===i?'3px solid rgba(47,99,217,.16)':'none');
+ const inspector=document.getElementById('inspector');
+ inspector.innerHTML=`<h3>Question ${i+1}</h3><div class="label">Traditional question</div><div class="question-box">${x.q}</div><div class="label">Answer choices</div><div class="option-list">${x.a.map(v=>`<div class="option">${v}</div>`).join('')}</div><div class="guidance ${x.c}"><strong>${x.label}</strong>${x.why}</div><div class="label">Suggested rewrite</div><div class="question-box">${x.rewrite}</div><div class="label">Example AI help text</div><div style="color:var(--muted);font-size:14px">${x.help}</div>`;
+}
+function updateProgress(){
+ const n=reviewed.size; document.getElementById('progressFill').style.width=`${n/10*100}%`; document.getElementById('progressText').textContent=`${n} / 10 questions reviewed`;
+}
+function toggleReveal(id){const e=document.getElementById(id);e.style.display=e.style.display==='block'?'none':'block'}
+function updatePreview(){
+ const q=document.getElementById('qinput').value.trim(); const a=document.getElementById('answers').value.split('·').map(x=>x.trim()).filter(Boolean); const h=document.getElementById('help').value.trim();
+ document.getElementById('pvQuestion').textContent=q||'—'; document.getElementById('pvHelp').textContent=h||'—'; document.getElementById('pvAnswers').innerHTML=a.map(v=>`<span class="chip">${v}</span>`).join('');
+}
+function updateBuildScore(){
+ const checks=[...document.querySelectorAll('[data-build-check]')]; const done=checks.filter(c=>c.checked).length; document.getElementById('buildScore').textContent=`${done}/5`;
+ const label=document.getElementById('buildScoreLabel');
+ if(done===5){label.innerHTML='<b style="color:var(--green)">Strong design check</b>'}
+ else if(done>=3){label.innerHTML='<b style="color:var(--amber)">Almost there</b>'}
+ else label.innerHTML='<b>Review the design</b>';
+}
+document.querySelectorAll('[data-build-check]').forEach(c=>c.addEventListener('change',updateBuildScore));
+document.querySelectorAll('.navbtn').forEach(btn=>btn.addEventListener('click',()=>document.getElementById(btn.dataset.target).scrollIntoView({behavior:'smooth',block:'start'})));
+renderList(); selectQuestion(0);
+</script>
+</body>
+</html>
